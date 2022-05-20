@@ -57,8 +57,35 @@ public class Controller implements ActionListener {
 
 	private void parseCallerIDAction(String callerID, String action) {
 		switch (callerID) {
-		case "": {
+		case "consultaPanel": {
+			switch (action.toLowerCase()) {
+			case "consultar": {
+				// TODO refactor into own method
+				ConsultaPanel consultaPanel = mainView.getConsultaPanel();
+				consultaPanel.clearTable();
+				ArrayList<Restaurante> restaurantes = persistence.getRestaurantes();
+				String regionFilter = (String) consultaPanel.getRegionCmbx().getSelectedItem();
+				// TODO create test case to ensure distinFilter always matches selected distin
+				int distinFilter = consultaPanel.getDistinCmbx().getSelectedIndex();
+				// filter table results based on chosen options
+				if (!regionFilter.equals("TODAS")) {
+					restaurantes.removeIf(restaurante -> (!restaurante.region().equals(regionFilter)));
+				}
+				if (distinFilter != 0) {
+					restaurantes.removeIf(restaurante -> (restaurante.distincion() != distinFilter));
+				}
+				// send the final array
+				consultaPanel.updateTable(restaurantes);
+				if (restaurantes.isEmpty()) {
+					ActionUtils.promptInfoDialog(mainView, "No se han encontrado datos");
+				}
+				break;
+			}
+			case "eliminar": {
 
+				break;
+			}
+			}
 			break;
 		}
 		default:
@@ -72,30 +99,8 @@ public class Controller implements ActionListener {
 			ActionUtils.onExitEvent(mainView);
 			break;
 		}
-		case "consultar": {
-			// TODO refactor into own method
-			ConsultaPanel consultaPanel = mainView.getConsultaPanel();
-			consultaPanel.clearTable();
-			ArrayList<Restaurante> restaurantes = persistence.getRestaurantes();
-			String regionFilter = (String) consultaPanel.getRegionCmbx().getSelectedItem();
-			// TODO create test case to ensure distinFilter always matches selected distin
-			int distinFilter = consultaPanel.getDistinCmbx().getSelectedIndex();
-			// filter table results based on chosen options
-			if (!regionFilter.equals("TODAS")) {
-				restaurantes.removeIf(restaurante -> (!restaurante.region().equals(regionFilter)));
-			}
-			if (distinFilter != 0) {
-				restaurantes.removeIf(restaurante -> (restaurante.distincion() != distinFilter));
-			}
-			// send the final array
-			consultaPanel.updateTable(restaurantes);
-			if (restaurantes.isEmpty()) {
-				ActionUtils.promptInfoDialog(mainView, "No se han encontrado datos");
-			}
-			break;
-		}
 		default:
-			throw new IllegalArgumentException("Unexpected value: " + action);
+			throw new IllegalArgumentException("Valor inesperado: " + action);
 		}
 	}
 

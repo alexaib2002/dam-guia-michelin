@@ -77,7 +77,6 @@ public class MainView extends JFrame implements ComponentView {
 
 		// update
 		repaint();
-
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package org.uem.dam.GuiaMichelin.view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
@@ -27,6 +29,7 @@ public class ConsultaPanel extends JPanel implements ComponentView {
 	private JButton consultBtn;
 	private JComboBox regionCmbx;
 	private JComboBox distinCmbx;
+	private JButton remBtn;
 
 	public ConsultaPanel() {
 		initComponents();
@@ -35,6 +38,7 @@ public class ConsultaPanel extends JPanel implements ComponentView {
 	@Override
 	public void updateListeners(Controller controller) {
 		consultBtn.addActionListener(controller);
+		remBtn.addActionListener(controller);
 
 		DBPersistence persistence = controller.getPersistence();
 		DefaultComboBoxModel<String> cmbxModelRegion = (DefaultComboBoxModel<String>) regionCmbx.getModel();
@@ -44,11 +48,12 @@ public class ConsultaPanel extends JPanel implements ComponentView {
 
 		DefaultTableModel tableModel = new DefaultTableModel(persistence.getAvailableColumns().toArray(), 0);
 		listTable.setModel(tableModel);
+
 	}
 
 	@Override
 	public void initComponents() {
-		setLayout(new MigLayout("", "[186px,grow][]", "[15px][][grow]"));
+		setLayout(new MigLayout("", "[186px,grow][]", "[15px][][fill][]"));
 
 		JLabel lblConsultaDeRestaurantes = new JLabel("Consulta de Restaurantes");
 		add(lblConsultaDeRestaurantes, "cell 0 0,alignx left,aligny top");
@@ -81,7 +86,7 @@ public class ConsultaPanel extends JPanel implements ComponentView {
 		tablaPnl.setBorder(
 				new TitledBorder(null, "Listado de restaurantes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		add(tablaPnl, "cell 0 2,grow");
-		tablaPnl.setLayout(new MigLayout("", "[grow]", "[grow]"));
+		tablaPnl.setLayout(new MigLayout("", "[grow]", "[][]"));
 
 		JScrollPane scrollPane = new JScrollPane();
 		tablaPnl.add(scrollPane, "cell 0 0,grow");
@@ -93,14 +98,25 @@ public class ConsultaPanel extends JPanel implements ComponentView {
 				return false;
 			}
 		};
-		listTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		listTable.setCellSelectionEnabled(true);
 		listTable.setFillsViewportHeight(true);
+		listTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		listTable.setCellSelectionEnabled(true);
 		scrollPane.setViewportView(listTable);
+
+		remBtn = new JButton("Eliminar");
+		remBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		tablaPnl.add(remBtn, "cell 0 1,alignx right");
 	}
 
 	@Override
 	public void initAttributes() {
+		consultBtn.putClientProperty("CallerID", "consultaPanel");
+		remBtn.putClientProperty("CallerID", "consultaPanel");
+
 		// TODO generate first view of table
 	}
 
