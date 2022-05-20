@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 
 import org.uem.dam.GuiaMichelin.model.Restaurante;
 import org.uem.dam.GuiaMichelin.persist.DBPersistence;
+import org.uem.dam.GuiaMichelin.view.ConsultaPanel;
 import org.uem.dam.GuiaMichelin.view.MainView;
 
 public class Controller implements ActionListener {
@@ -72,8 +73,25 @@ public class Controller implements ActionListener {
 			break;
 		}
 		case "consultar": {
+			// TODO refactor into own method
+			ConsultaPanel consultaPanel = mainView.getConsultaPanel();
+			consultaPanel.clearTable();
 			ArrayList<Restaurante> restaurantes = persistence.getRestaurantes();
-			mainView.getConsultaPanel().updateTable(restaurantes);
+			String regionFilter = (String) consultaPanel.getRegionCmbx().getSelectedItem();
+			// TODO create test case to ensure distinFilter always matches selected distin
+			int distinFilter = consultaPanel.getDistinCmbx().getSelectedIndex();
+			// filter table results based on chosen options
+			if (!regionFilter.equals("TODAS")) {
+				restaurantes.removeIf(restaurante -> (!restaurante.region().equals(regionFilter)));
+			}
+			if (distinFilter != 0) {
+				restaurantes.removeIf(restaurante -> (restaurante.distincion() != distinFilter));
+			}
+			// send the final array
+			consultaPanel.updateTable(restaurantes);
+			if (restaurantes.isEmpty()) {
+				ActionUtils.promptInfoDialog(mainView, "No se han encontrado datos");
+			}
 			break;
 		}
 		default:
@@ -83,16 +101,20 @@ public class Controller implements ActionListener {
 
 	private class ActionUtils {
 
-		public static boolean promptWindowExit(Window onWindow) {
-			return (JOptionPane.showConfirmDialog(onWindow, "Se va a cerrar el programa, ¿confirmar?",
+		public static boolean promptWindowExit(Window window) {
+			return (JOptionPane.showConfirmDialog(window, "Se va a cerrar el programa, ¿confirmar?",
 					"Confirmar cierre", JOptionPane.YES_NO_OPTION,
-					JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION);
+					JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION);
 		}
 
 		public static void onExitEvent(Window window) {
 			if (ActionUtils.promptWindowExit(window)) {
 				window.dispose();
 			}
+		}
+
+		public static void promptInfoDialog(Window window, String mssg) {
+			JOptionPane.showMessageDialog(window, mssg, "Información del sistema gestor", JOptionPane.INFORMATION_MESSAGE);
 		}
 
 	}

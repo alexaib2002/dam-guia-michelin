@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -84,9 +85,16 @@ public class ConsultaPanel extends JPanel implements ComponentView {
 		JScrollPane scrollPane = new JScrollPane();
 		tablaPnl.add(scrollPane, "cell 0 0,grow");
 
-		listTable = new JTable();
+		listTable = new JTable() {
+			// disable editable cells
+			@Override
+			public boolean editCellAt(int row, int column, java.util.EventObject e) {
+				return false;
+			}
+		};
+		listTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listTable.setCellSelectionEnabled(true);
 		listTable.setFillsViewportHeight(true);
-		listTable.setEnabled(false);
 		scrollPane.setViewportView(listTable);
 	}
 
@@ -114,4 +122,8 @@ public class ConsultaPanel extends JPanel implements ComponentView {
 		}
 	}
 
+	public void clearTable() {
+		DefaultTableModel tableModel = (DefaultTableModel) listTable.getModel();
+		tableModel.setNumRows(0);
+	}
 }
