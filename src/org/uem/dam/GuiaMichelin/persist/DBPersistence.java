@@ -11,7 +11,6 @@ import org.uem.dam.GuiaMichelin.model.Restaurante;
 
 public class DBPersistence {
 
-
 	private DBConnection dbConnection;
 
 	public DBPersistence() {
@@ -26,34 +25,38 @@ public class DBPersistence {
 		try {
 			con = getConnection();
 			stmt = con.createStatement();
-			String query = String.format(
-					"SELECT * FROM %s;",
-					"RESTAURANTES" // FIXME contract
-					);
+			String query = String.format("SELECT * FROM %s;", "RESTAURANTES" // FIXME contract
+			);
 			rset = stmt.executeQuery(query);
 
 			while (rset.next()) {
+				// parse values that can be nulled
+				float precioMin = rset.getString("PRECIO_MIN") != null ? Float.parseFloat(rset.getString("PRECIO_MIN"))
+						: 0f;
+				float precioMax = rset.getString("PRECIO_MAX") != null ? Float.parseFloat(rset.getString("PRECIO_MAX"))
+						: 0f;
+				String direccion = rset.getString("DIRECCION") != null ? rset.getString("DIRECCION") : "";
+				String cocina = rset.getString("COCINA") != null ? rset.getString("COCINA") : "";
+				String telefono = rset.getString("TELEFONO") != null ? rset.getString("TELEFONO") : "";
+				String web = rset.getString("WEB") != null ? rset.getString("WEB") : "";
+
 				restaurantes.add(new Restaurante( // FIXME
-						Integer.parseInt(rset.getString("ID")),
-						Integer.parseInt(rset.getString("DISTINCION")),
-						Integer.parseInt(rset.getString("PRECIO_MIN")),
-						Integer.parseInt(rset.getString("PRECIO_MAX")),
-						rset.getString("NOMBRE"),
-						rset.getString("REGION"),
-						rset.getString("CIUDAD"),
-						rset.getString("DIRECCION"),
-						rset.getString("COCINA"),
-						rset.getString("TELEFONO"),
-						rset.getString("WEB")
-						));
+						Integer.parseInt(rset.getString("ID")), Integer.parseInt(rset.getString("DISTINCION")),
+						precioMin, precioMax, rset.getString("NOMBRE"), rset.getString("REGION"),
+						rset.getString("CIUDAD"), direccion, cocina, telefono, web));
 			}
 		} catch (SQLException e) {
 			System.out.println("Error en codigo SQL");
+		} catch (NullPointerException e) {
+			System.out.println("bruh");
 		} finally {
 			try {
-				if (rset != null) rset.close();
-				if (stmt != null) stmt.close();
-				if (con != null) con.close();
+				if (rset != null)
+					rset.close();
+				if (stmt != null)
+					stmt.close();
+				if (con != null)
+					con.close();
 			} catch (SQLException e) {
 				System.out.println("Excepcion en codigo SQL");
 			}
@@ -67,19 +70,9 @@ public class DBPersistence {
 		PreparedStatement pstmt = null;
 		String query = String.format(
 				"INSERT INTO %s VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');",
-				"RESTAURANTES",
-				restaurante.id(),
-				restaurante.nombre(),
-				restaurante.region(),
-				restaurante.ciudad(),
-				restaurante.distincion(),
-				restaurante.direccion(),
-				restaurante.precioMin(),
-				restaurante.precioMax(),
-				restaurante.cocina(),
-				restaurante.telefono(),
-				restaurante.web()
-				);
+				"RESTAURANTES", restaurante.id(), restaurante.nombre(), restaurante.region(), restaurante.ciudad(),
+				restaurante.distincion(), restaurante.direccion(), restaurante.precioMin(), restaurante.precioMax(),
+				restaurante.cocina(), restaurante.telefono(), restaurante.web());
 		try {
 			con = getConnection();
 			pstmt = con.prepareStatement(query);
@@ -89,8 +82,10 @@ public class DBPersistence {
 			System.out.println("Error en codigo SQL");
 		} finally {
 			try {
-				if (pstmt != null) pstmt.close();
-				if (con != null) con.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (con != null)
+					con.close();
 				System.out.println("Conexion a BBDD cerrada con exito");
 			} catch (SQLException e) {
 				System.out.println("Error durante cierre de conexion a BBDD");
@@ -107,9 +102,8 @@ public class DBPersistence {
 		try { // FIXME code is repeated, perhaps implementation as lambda would help
 			con = getConnection();
 			stmt = con.createStatement();
-			String query = String.format(
-					"SELECT DISTINCT REGION FROM RESTAURANTES;" // FIXME hardcode
-					);
+			String query = String.format("SELECT DISTINCT REGION FROM RESTAURANTES;" // FIXME hardcode
+			);
 			rset = stmt.executeQuery(query);
 
 			while (rset.next()) {
@@ -119,9 +113,12 @@ public class DBPersistence {
 			System.out.println("Error en codigo SQL");
 		} finally {
 			try {
-				if (rset != null) rset.close();
-				if (stmt != null) stmt.close();
-				if (con != null) con.close();
+				if (rset != null)
+					rset.close();
+				if (stmt != null)
+					stmt.close();
+				if (con != null)
+					con.close();
 			} catch (SQLException e) {
 				System.out.println("Excepcion en codigo SQL");
 			}
@@ -137,24 +134,23 @@ public class DBPersistence {
 		try { // FIXME code is repeated, perhaps implementation as lambda would help
 			con = getConnection();
 			stmt = con.createStatement();
-			String query = String.format(
-					"SELECT name FROM pragma_table_info('%s') ORDER BY cid;", // FIXME hardcode
-					"RESTAURANTES"
-					);
+			String query = String.format("SELECT name FROM pragma_table_info('%s') ORDER BY cid;", // FIXME hardcode
+					"RESTAURANTES");
 			rset = stmt.executeQuery(query);
 
 			while (rset.next()) {
 				columns.add(rset.getString("name")); // FIXME hardcode
 			}
 		} catch (SQLException e) {
-			System.err.println(String.format(
-					"Error en codigo SQL: \n %s",
-					e));
+			System.err.println(String.format("Error en codigo SQL: \n %s", e));
 		} finally {
 			try {
-				if (rset != null) rset.close();
-				if (stmt != null) stmt.close();
-				if (con != null) con.close();
+				if (rset != null)
+					rset.close();
+				if (stmt != null)
+					stmt.close();
+				if (con != null)
+					con.close();
 			} catch (SQLException e) {
 				System.out.println("Excepcion en codigo SQL");
 			}

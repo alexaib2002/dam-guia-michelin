@@ -6,7 +6,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -17,7 +16,7 @@ import net.miginfocom.swing.MigLayout;
 
 public class MainView extends JFrame implements ComponentView {
 
-	private Controller controller;
+//	private Controller controller;
 	private JMenuBar menuBar;
 	private JMenu mantenimientoMn;
 	private JMenuItem exitMntm;
@@ -36,7 +35,7 @@ public class MainView extends JFrame implements ComponentView {
 
 	@Override
 	public void initComponents() {
-		getContentPane().setLayout(new MigLayout("", "[grow]", "[grow]"));
+		getContentPane().setLayout(new MigLayout("", "[grow,center]", "[grow,center]"));
 
 		rootPane = new JScrollPane();
 		getContentPane().add(rootPane, "cell 0 0,grow");
@@ -74,7 +73,7 @@ public class MainView extends JFrame implements ComponentView {
 		this.setSize(new Dimension(336, 312));
 
 		// set main view content
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); // I want to manually manipulate the closing operation
 
 		// update
 		repaint();
@@ -83,30 +82,19 @@ public class MainView extends JFrame implements ComponentView {
 
 	@Override
 	public void updateListeners(Controller controller) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void setController(Controller controller) {
-		this.controller = controller;
 		exitMntm.addActionListener(controller);
 		// initialize controller dependent elements
+		consultaPanel.updateListeners(controller);
 		consultaPanel.initAttributes();
+		this.addWindowListener(controller.getWinAdapter());
+	}
+
+	public ConsultaPanel getConsultaPanel() {
+		return consultaPanel;
 	}
 
 	public void setSubmenuView(JPanel submenu) {
 		rootPane.setViewportView(submenu);
-	}
-
-	public Controller getController() {
-		return controller;
-	}
-
-	public void requestExitAction() {
-		if (JOptionPane.showConfirmDialog(this, "Se va a cerrar el programa, ¿confirmar?", "Confirmar cierre",
-				JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
-			System.exit(NORMAL);
-		}
 	}
 
 }

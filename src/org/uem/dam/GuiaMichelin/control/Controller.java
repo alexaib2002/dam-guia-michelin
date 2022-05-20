@@ -1,21 +1,36 @@
 package org.uem.dam.GuiaMichelin.control;
 
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 
+import org.uem.dam.GuiaMichelin.model.Restaurante;
 import org.uem.dam.GuiaMichelin.persist.DBPersistence;
 import org.uem.dam.GuiaMichelin.view.MainView;
 
 public class Controller implements ActionListener {
 
-	private MainView mainView;
-	private DBPersistence persistence;
+	private final MainView mainView;
+	private final DBPersistence persistence;
+	private final WindowAdapter winAdapter;
 
 	public Controller(MainView mainView) {
 		this.mainView = mainView;
 		this.persistence = new DBPersistence();
+		this.winAdapter = new WindowAdapter() {
+			// reference:
+			// https://docs.oracle.com/javase/7/docs/api/java/awt/event/WindowListener.html#windowClosing(java.awt.event.WindowEvent)
+			@Override
+			public void windowClosing(WindowEvent e) {
+				ActionUtils.onExitEvent(mainView);
+			}
+		};
 	}
 
 	@Override
@@ -31,6 +46,10 @@ public class Controller implements ActionListener {
 
 	public DBPersistence getPersistence() {
 		return persistence;
+	}
+
+	public WindowAdapter getWinAdapter() {
+		return winAdapter;
 	}
 
 	/* General action parsers */
@@ -49,7 +68,12 @@ public class Controller implements ActionListener {
 	private void parseGenericAction(String action) {
 		switch (action.toLowerCase()) {
 		case "exit": {
-			mainView.requestExitAction();
+			ActionUtils.onExitEvent(mainView);
+			break;
+		}
+		case "consultar": {
+			ArrayList<Restaurante> restaurantes = persistence.getRestaurantes();
+			mainView.getConsultaPanel().updateTable(restaurantes);
 			break;
 		}
 		default:
@@ -57,7 +81,22 @@ public class Controller implements ActionListener {
 		}
 	}
 
-	/* Special action parsers */
+	private class ActionUtils {
 
+		public static boolean promptWindowExit(Window onWindow) {
+			return (JOptionPane.showConfirmDialog(onWindow, "Se va a cerrar el programa, ¿confirmar?",
+					"Confirmar cierre", JOptionPane.YES_NO_OPTION,
+					JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION);
+		}
+
+		public static void onExitEvent(Window window) {
+			if (ActionUtils.promptWindowExit(window)) {
+				window.dispose();
+			}
+		}
+
+	}
+
+	/* Special action parsers */
 
 }

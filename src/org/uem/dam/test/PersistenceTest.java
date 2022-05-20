@@ -1,4 +1,4 @@
-package org.uem.dam.tests;
+package org.uem.dam.test;
 
 import org.junit.BeforeClass;
 import org.junit.jupiter.api.Test;

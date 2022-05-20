@@ -1,5 +1,7 @@
 package org.uem.dam.GuiaMichelin.view;
 
+import java.util.ArrayList;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -12,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.uem.dam.GuiaMichelin.control.Controller;
 import org.uem.dam.GuiaMichelin.model.ComponentView;
+import org.uem.dam.GuiaMichelin.model.Restaurante;
 import org.uem.dam.GuiaMichelin.persist.DBPersistence;
 
 import net.miginfocom.swing.MigLayout;
@@ -58,21 +61,23 @@ public class ConsultaPanel extends JPanel implements ComponentView {
 		filtroPnl.add(lblRegin, "cell 0 0,alignx trailing");
 
 		regionCmbx = new JComboBox();
-		regionCmbx.setModel(new DefaultComboBoxModel(new String[] {"TODAS"}));
+		regionCmbx.setModel(new DefaultComboBoxModel(new String[] { "TODAS" }));
 		filtroPnl.add(regionCmbx, "cell 1 0,growx");
 
 		JLabel lblDistincin = new JLabel("Distinción");
 		filtroPnl.add(lblDistincin, "cell 2 0,alignx trailing");
 
 		distinCmbx = new JComboBox();
-		distinCmbx.setModel(new DefaultComboBoxModel(new String[] {"TODAS", "1 estrella", "2 estrellas", "3 estrellas"}));
+		distinCmbx.setModel(
+				new DefaultComboBoxModel(new String[] { "TODAS", "1 estrella", "2 estrellas", "3 estrellas" }));
 		filtroPnl.add(distinCmbx, "cell 3 0,growx");
 
 		consultBtn = new JButton("Consultar");
 		filtroPnl.add(consultBtn, "cell 0 1 4 1,growx,aligny center");
 
 		JPanel tablaPnl = new JPanel();
-		tablaPnl.setBorder(new TitledBorder(null, "Listado de restaurantes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		tablaPnl.setBorder(
+				new TitledBorder(null, "Listado de restaurantes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		add(tablaPnl, "cell 0 2,grow");
 		tablaPnl.setLayout(new MigLayout("", "[grow]", "[grow]"));
 
@@ -85,20 +90,26 @@ public class ConsultaPanel extends JPanel implements ComponentView {
 
 	@Override
 	public void initAttributes() {
-
+		// TODO generate first view of table
 	}
 
 	public JComboBox getRegionCmbx() {
 		return regionCmbx;
 	}
+
 	public JComboBox getDistinCmbx() {
 		return distinCmbx;
 	}
+
 	public JButton getConsultBtn() {
 		return consultBtn;
 	}
-	public JTable getListTable() {
-		return listTable;
+
+	public void updateTable(ArrayList<Restaurante> restaurantes) {
+		DefaultTableModel tableModel = (DefaultTableModel) listTable.getModel();
+		for (Restaurante restaurante : restaurantes) {
+			tableModel.addRow(restaurante.translateToStringArray().toArray());
+		}
 	}
 
 }
