@@ -5,6 +5,10 @@ import java.util.ArrayList;
 public record Restaurante(int id, int distincion, float precioMin, float precioMax, String nombre, String region,
 		String ciudad, String direccion, String cocina, String telefono, String web) {
 
+	public enum PROPS {
+		ID, NOMBRE, REGION, CIUDAD, DISTINCION, DIRECCION, PRECIO_MIN, PRECIO_MAX, COCINA, TELEFONO, WEB
+	}
+
 	public ArrayList<String> translateToStringArray() {
 		ArrayList<String> values = new ArrayList<>();
 		values.add(Integer.toString(id));

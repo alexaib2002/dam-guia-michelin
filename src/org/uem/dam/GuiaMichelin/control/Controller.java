@@ -99,12 +99,11 @@ public class Controller implements ActionListener {
 		}
 	}
 
-	private class ActionUtils {
+	private static class ActionUtils {
 
 		public static boolean promptWindowExit(Window window) {
-			return (JOptionPane.showConfirmDialog(window, "Se va a cerrar el programa, ¿confirmar?",
-					"Confirmar cierre", JOptionPane.YES_NO_OPTION,
-					JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION);
+			return (JOptionPane.showConfirmDialog(window, "Se va a cerrar el programa, ¿confirmar?", "Confirmar cierre",
+					JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION);
 		}
 
 		public static void onExitEvent(Window window) {
@@ -114,7 +113,8 @@ public class Controller implements ActionListener {
 		}
 
 		public static void promptInfoDialog(Window window, String mssg) {
-			JOptionPane.showMessageDialog(window, mssg, "Información del sistema gestor", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(window, mssg, "Información del sistema gestor",
+					JOptionPane.INFORMATION_MESSAGE);
 		}
 
 	}

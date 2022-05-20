@@ -17,6 +17,7 @@ import org.uem.dam.GuiaMichelin.control.Controller;
 import org.uem.dam.GuiaMichelin.model.ComponentView;
 import org.uem.dam.GuiaMichelin.model.Restaurante;
 import org.uem.dam.GuiaMichelin.persist.DBPersistence;
+import org.uem.dam.GuiaMichelin.utils.Utils;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -117,8 +118,12 @@ public class ConsultaPanel extends JPanel implements ComponentView {
 
 	public void updateTable(ArrayList<Restaurante> restaurantes) {
 		DefaultTableModel tableModel = (DefaultTableModel) listTable.getModel();
+		Object[] restauranteProps;
+		int distinIdx = Restaurante.PROPS.DISTINCION.ordinal();
 		for (Restaurante restaurante : restaurantes) {
-			tableModel.addRow(restaurante.translateToStringArray().toArray());
+			restauranteProps = restaurante.translateToStringArray().toArray();
+			Utils.parseDistinIntToString(restauranteProps, distinIdx);
+			tableModel.addRow(restauranteProps);
 		}
 	}
 
