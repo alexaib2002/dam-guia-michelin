@@ -85,6 +85,8 @@ public class ConsultaPanel extends JPanel implements ComponentView {
 		tablaPnl.add(scrollPane, "cell 0 0,grow");
 
 		listTable = new JTable();
+		listTable.setFillsViewportHeight(true);
+		listTable.setEnabled(false);
 		scrollPane.setViewportView(listTable);
 	}
 
