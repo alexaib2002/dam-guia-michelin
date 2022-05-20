@@ -11,6 +11,7 @@ public class GuiaMichelinMain {
 			MainView mainView = new MainView();
 			Controller mainController = new Controller(mainView);
 			mainView.updateListeners(mainController);
+			mainView.setSubmenuView(mainView.getConsultaPanel()); // always want to start on login
 		});
 
 	}
