@@ -131,6 +131,14 @@ public class ConsultaPanel extends JPanel implements ComponentView {
 		return consultBtn;
 	}
 
+	public int[] getSelectedIndexes() {
+		return listTable.getSelectedRows();
+	}
+
+	public void removeTableIndex(int idx) {
+		((DefaultTableModel) listTable.getModel()).removeRow(idx);
+	}
+
 	public void updateTable(ArrayList<Restaurante> restaurantes) {
 		DefaultTableModel tableModel = (DefaultTableModel) listTable.getModel();
 		Object[] restauranteProps;

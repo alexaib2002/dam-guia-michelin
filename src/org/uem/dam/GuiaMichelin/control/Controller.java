@@ -16,10 +16,11 @@ import org.uem.dam.GuiaMichelin.view.ConsultaPanel;
 import org.uem.dam.GuiaMichelin.view.MainView;
 
 public class Controller implements ActionListener {
-
 	private final MainView mainView;
 	private final DBPersistence persistence;
 	private final WindowAdapter winAdapter;
+
+	private ArrayList<Restaurante> restaurantes;
 
 	public Controller(MainView mainView) {
 		this.mainView = mainView;
@@ -92,15 +93,15 @@ public class Controller implements ActionListener {
 		case "consulta de restaurantes": {
 			mainView.setSubmenuView(mainView.getConsultaPanel());
 		}
-		break;
+			break;
 		case "registro de restaurante": {
 			mainView.setSubmenuView(mainView.getRegistroPanel());
 		}
-		break;
+			break;
 		case "modificación de restaurante": {
 			mainView.setSubmenuView(null);
 		}
-		break;
+			break;
 		}
 	}
 
@@ -110,7 +111,7 @@ public class Controller implements ActionListener {
 			// TODO refactor into own method
 			ConsultaPanel consultaPanel = mainView.getConsultaPanel();
 			consultaPanel.clearTable();
-			ArrayList<Restaurante> restaurantes = persistence.getRestaurantes();
+			restaurantes = persistence.getRestaurantes();
 			String regionFilter = (String) consultaPanel.getRegionCmbx().getSelectedItem();
 			// TODO create test case to ensure distinFilter always matches selected distin
 			int distinFilter = consultaPanel.getDistinCmbx().getSelectedIndex();
@@ -130,7 +131,22 @@ public class Controller implements ActionListener {
 			break;
 		}
 		case "eliminar": {
-			System.err.println("Eliminación no implementada");
+			ConsultaPanel consultaPanel = mainView.getConsultaPanel();
+			int[] rowsSelected = mainView.getConsultaPanel().getSelectedIndexes();
+			try {
+				for (int i = rowsSelected[rowsSelected.length - 1]; i >= rowsSelected[0]; i--) {
+					consultaPanel.removeTableIndex(i);
+					persistence.removeRestaurante(restaurantes.get(i));
+					restaurantes.remove(i);
+				}
+				WindowActionUtils.promptInfoDialog(mainView, "Eliminación realizada con éxito",
+						JOptionPane.INFORMATION_MESSAGE);
+			} catch (ArrayIndexOutOfBoundsException exception) {
+				System.err.println("Ningun dato seleccionado, no se puede proceder a eliminación");
+				WindowActionUtils.promptInfoDialog(mainView,
+						"No se ha seleccionado ningún dato, no se puede eliminar ninguna fila",
+						JOptionPane.ERROR_MESSAGE);
+			}
 			break;
 		}
 		}
@@ -149,8 +165,8 @@ public class Controller implements ActionListener {
 					WindowActionUtils.promptInfoDialog(mainView, "Restaurante introducido correctamente",
 							JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					WindowActionUtils.promptInfoDialog(mainView, "El nombre introducido ya esta asignado a un restaurante",
-							JOptionPane.ERROR_MESSAGE);
+					WindowActionUtils.promptInfoDialog(mainView,
+							"El nombre introducido ya esta asignado a un restaurante", JOptionPane.ERROR_MESSAGE);
 				}
 			} catch (NullPointerException e) {
 				System.out.println("El restaurante no se pudo generar correctamente");

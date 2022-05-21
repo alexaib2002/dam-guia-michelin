@@ -28,7 +28,7 @@ public class DBPersistence {
 			con = getConnection();
 			stmt = con.createStatement();
 			String query = String.format("SELECT * FROM %s;", "RESTAURANTES" // FIXME contract
-					);
+			);
 			rset = stmt.executeQuery(query);
 
 			while (rset.next()) {
@@ -101,6 +101,31 @@ public class DBPersistence {
 		return result;
 	}
 
+	public void removeRestaurante(Restaurante restaurante) {
+		int result = 0;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String query = "DELETE FROM RESTAURANTES WHERE ID = ?;";
+		try {
+			con = getConnection();
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, restaurante.id());
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Error en codigo SQL");
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (con != null)
+					con.close();
+				System.out.println("Conexion a BBDD cerrada con exito");
+			} catch (SQLException e) {
+				System.out.println("Error durante cierre de conexion a BBDD");
+			}
+		}
+	}
+
 	public ArrayList<String> getAvailableRegions() {
 		ResultSet rset = null;
 		Connection con = null;
@@ -110,7 +135,7 @@ public class DBPersistence {
 			con = getConnection();
 			stmt = con.createStatement();
 			String query = String.format("SELECT DISTINCT REGION FROM RESTAURANTES;" // FIXME hardcode
-					);
+			);
 			rset = stmt.executeQuery(query);
 
 			while (rset.next()) {
