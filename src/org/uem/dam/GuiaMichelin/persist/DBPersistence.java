@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import org.uem.dam.GuiaMichelin.inter.UpdateExpression;
 import org.uem.dam.GuiaMichelin.model.Restaurante;
 
 public class DBPersistence {
@@ -66,51 +67,15 @@ public class DBPersistence {
 		return restaurantes;
 	}
 
-	public int addRestaurante(Restaurante restaurante) {
-		int result = 0;
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		String query = "INSERT INTO RESTAURANTES ('NOMBRE', 'REGION', 'CIUDAD', 'DISTINCION', 'DIRECCION', 'PRECIO_MIN', 'PRECIO_MAX', 'COCINA', 'TELEFONO', 'WEB') VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-		try {
-			con = getConnection();
-			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, restaurante.nombre());
-			pstmt.setString(2, restaurante.region());
-			pstmt.setString(3, restaurante.ciudad());
-			pstmt.setInt(4, restaurante.distincion());
-			pstmt.setString(5, restaurante.direccion());
-			pstmt.setFloat(6, restaurante.precioMin());
-			pstmt.setFloat(7, restaurante.precioMax());
-			pstmt.setString(8, restaurante.cocina());
-			pstmt.setString(9, restaurante.telefono());
-			pstmt.setString(10, restaurante.web());
-			result = pstmt.executeUpdate();
-			System.out.println(result);
-		} catch (SQLException e) {
-			System.out.println("Error en codigo SQL");
-		} finally {
-			try {
-				if (pstmt != null)
-					pstmt.close();
-				if (con != null)
-					con.close();
-				System.out.println("Conexion a BBDD cerrada con exito");
-			} catch (SQLException e) {
-				System.out.println("Error durante cierre de conexion a BBDD");
-			}
-		}
-		return result;
-	}
+	// TODO implement UpdateExpression
 
-	public int removeRestaurante(Restaurante restaurante) {
+	public int updateRestaurante(Restaurante restaurante, UpdateExpression expr) {
 		int result = 0;
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String query = "DELETE FROM RESTAURANTES WHERE ID = ?;";
 		try {
 			con = getConnection();
-			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, restaurante.id());
+			pstmt = expr.executeUpdateSQL(con, pstmt);
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("Error en codigo SQL");

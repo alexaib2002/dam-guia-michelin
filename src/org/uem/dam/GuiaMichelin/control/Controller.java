@@ -136,7 +136,15 @@ public class Controller implements ActionListener {
 			try {
 				for (int i = rowsSelected[rowsSelected.length - 1]; i >= rowsSelected[0]; i--) {
 					consultaPanel.removeTableIndex(i);
-					if (persistence.removeRestaurante(restaurantes.get(i)) != 1) {
+					// https://stackoverflow.com/questions/34865383/variable-used-in-lambda-expression-should-be-final-or-effectively-final
+					Restaurante restaurante = restaurantes.get(i); // lambda NO acepta variables mutables en el interior
+																	// de la implementación, deben ser finales
+					if (persistence.updateRestaurante(restaurante, (con, pstmt) -> {
+						String query = "DELETE FROM RESTAURANTES WHERE ID = ?;";
+						pstmt = con.prepareStatement(query);
+						pstmt.setInt(1, restaurante.id());
+						return pstmt;
+					}) != 1) {
 						throw new Exception(
 								"La sentencia de actualización ejecutada ha retornado un número de filas anómalo");
 					}
@@ -167,7 +175,21 @@ public class Controller implements ActionListener {
 					throw new NullPointerException();
 				}
 				if (!persistence.hasRestaurante(restaurante)) {
-					if (persistence.addRestaurante(restaurante) == 1) {
+					if (persistence.updateRestaurante(restaurante, (con, pstmt) -> {
+						String query = "INSERT INTO RESTAURANTES ('NOMBRE', 'REGION', 'CIUDAD', 'DISTINCION', 'DIRECCION', 'PRECIO_MIN', 'PRECIO_MAX', 'COCINA', 'TELEFONO', 'WEB') VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+						pstmt = con.prepareStatement(query);
+						pstmt.setString(1, restaurante.nombre());
+						pstmt.setString(2, restaurante.region());
+						pstmt.setString(3, restaurante.ciudad());
+						pstmt.setInt(4, restaurante.distincion());
+						pstmt.setString(5, restaurante.direccion());
+						pstmt.setFloat(6, restaurante.precioMin());
+						pstmt.setFloat(7, restaurante.precioMax());
+						pstmt.setString(8, restaurante.cocina());
+						pstmt.setString(9, restaurante.telefono());
+						pstmt.setString(10, restaurante.web());
+						return pstmt;
+					}) == 1) {
 						WindowActionUtils.promptInfoDialog(mainView, "Restaurante introducido correctamente",
 								JOptionPane.INFORMATION_MESSAGE);
 					} else {
