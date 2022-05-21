@@ -33,6 +33,7 @@ public class ConsultaPanel extends JPanel implements ComponentView {
 
 	public ConsultaPanel() {
 		initComponents();
+		initAttributes();
 	}
 
 	@Override
@@ -53,7 +54,7 @@ public class ConsultaPanel extends JPanel implements ComponentView {
 
 	@Override
 	public void initComponents() {
-		setLayout(new MigLayout("", "[186px,grow][]", "[15px][][fill][]"));
+		setLayout(new MigLayout("", "[186px,grow][]", "[15px][][grow,fill][]"));
 
 		JLabel lblConsultaDeRestaurantes = new JLabel("Consulta de Restaurantes");
 		add(lblConsultaDeRestaurantes, "cell 0 0,alignx left,aligny top");
@@ -116,8 +117,6 @@ public class ConsultaPanel extends JPanel implements ComponentView {
 	public void initAttributes() {
 		consultBtn.putClientProperty("CallerID", "consultaPanel");
 		remBtn.putClientProperty("CallerID", "consultaPanel");
-
-		// TODO generate first view of table
 	}
 
 	public JComboBox getRegionCmbx() {

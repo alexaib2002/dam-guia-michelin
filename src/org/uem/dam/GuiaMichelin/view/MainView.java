@@ -21,6 +21,7 @@ public class MainView extends JFrame implements ComponentView {
 	private JMenuItem exitMntm;
 
 	private ConsultaPanel consultaPanel;
+	private RegistroPanel registroPanel;
 	private JMenuItem mntmConsulta;
 	private JMenuItem mntmRegistro;
 	private JMenuItem mntmModificacion;
@@ -53,23 +54,32 @@ public class MainView extends JFrame implements ComponentView {
 		menuBar.add(exitMntm);
 
 		consultaPanel = new ConsultaPanel();
-		rootPane.add(consultaPanel);
+		this.add(consultaPanel);
+
+		registroPanel = new RegistroPanel();
+		this.add(registroPanel);
 	}
 
 	@Override
 	public void initAttributes() {
-		this.setVisible(true);
 		this.setTitle("Gestor de Base de Datos");
-		this.setSize(new Dimension(336, 312));
+		this.setSize(new Dimension(1064, 705));
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); // I want to manually manipulate the closing operation
+
+		mntmConsulta.putClientProperty("CallerID", "mainView");
+		mntmRegistro.putClientProperty("CallerID", "mainView");
+		mntmModificacion.putClientProperty("CallerID", "mainView");
 	}
 
 	@Override
 	public void updateListeners(Controller controller) {
 		exitMntm.addActionListener(controller);
+		mntmConsulta.addActionListener(controller);
+		mntmRegistro.addActionListener(controller);
+		mntmModificacion.addActionListener(controller);
 		// initialize controller dependent elements
 		consultaPanel.updateListeners(controller);
-		consultaPanel.initAttributes();
+		registroPanel.updateListeners(controller);
 		this.addWindowListener(controller.getWinAdapter());
 	}
 
@@ -77,8 +87,13 @@ public class MainView extends JFrame implements ComponentView {
 		return consultaPanel;
 	}
 
+	public RegistroPanel getRegistroPanel() {
+		return registroPanel;
+	}
+
 	public void setSubmenuView(JPanel submenu) {
 		this.setContentPane(submenu);
+		this.pack();
 		this.repaint();
 	}
 

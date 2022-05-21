@@ -68,15 +68,20 @@ public class DBPersistence {
 		int result = 0;
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String query = String.format(
-				"INSERT INTO %s VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');",
-				"RESTAURANTES", restaurante.id(), restaurante.nombre(), restaurante.region(), restaurante.ciudad(),
-				restaurante.distincion(), restaurante.direccion(), restaurante.precioMin(), restaurante.precioMax(),
-				restaurante.cocina(), restaurante.telefono(), restaurante.web());
+		String query = "INSERT INTO RESTAURANTES ('NOMBRE', 'REGION', 'CIUDAD', 'DISTINCION', 'DIRECCION', 'PRECIO_MIN', 'PRECIO_MAX', 'COCINA', 'TELEFONO', 'WEB') VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		try {
 			con = getConnection();
 			pstmt = con.prepareStatement(query);
-			System.out.println(String.format("Ejecutando:\n %s", query));
+			pstmt.setString(1, restaurante.nombre());
+			pstmt.setString(2, restaurante.region());
+			pstmt.setString(3, restaurante.ciudad());
+			pstmt.setInt(4, restaurante.distincion());
+			pstmt.setString(5, restaurante.direccion());
+			pstmt.setFloat(6, restaurante.precioMin());
+			pstmt.setFloat(7, restaurante.precioMax());
+			pstmt.setString(8, restaurante.cocina());
+			pstmt.setString(9, restaurante.telefono());
+			pstmt.setString(10, restaurante.web());
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("Error en codigo SQL");
