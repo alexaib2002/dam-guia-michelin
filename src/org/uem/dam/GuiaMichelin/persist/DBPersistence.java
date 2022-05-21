@@ -50,7 +50,7 @@ public class DBPersistence {
 		} catch (SQLException e) {
 			System.out.println("Error en codigo SQL" + e);
 		} catch (NullPointerException e) {
-			System.out.println("bruh");
+			System.err.println(e.getStackTrace());
 		} finally {
 			try {
 				if (rset != null)
@@ -85,6 +85,7 @@ public class DBPersistence {
 			pstmt.setString(9, restaurante.telefono());
 			pstmt.setString(10, restaurante.web());
 			result = pstmt.executeUpdate();
+			System.out.println(result);
 		} catch (SQLException e) {
 			System.out.println("Error en codigo SQL");
 		} finally {
@@ -101,7 +102,7 @@ public class DBPersistence {
 		return result;
 	}
 
-	public void removeRestaurante(Restaurante restaurante) {
+	public int removeRestaurante(Restaurante restaurante) {
 		int result = 0;
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -124,6 +125,7 @@ public class DBPersistence {
 				System.out.println("Error durante cierre de conexion a BBDD");
 			}
 		}
+		return result;
 	}
 
 	public ArrayList<String> getAvailableRegions() {

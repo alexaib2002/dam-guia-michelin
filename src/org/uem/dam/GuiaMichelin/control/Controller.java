@@ -136,7 +136,10 @@ public class Controller implements ActionListener {
 			try {
 				for (int i = rowsSelected[rowsSelected.length - 1]; i >= rowsSelected[0]; i--) {
 					consultaPanel.removeTableIndex(i);
-					persistence.removeRestaurante(restaurantes.get(i));
+					if (persistence.removeRestaurante(restaurantes.get(i)) != 1) {
+						throw new Exception(
+								"La sentencia de actualización ejecutada ha retornado un número de filas anómalo");
+					}
 					restaurantes.remove(i);
 				}
 				WindowActionUtils.promptInfoDialog(mainView, "Eliminación realizada con éxito",
@@ -146,6 +149,9 @@ public class Controller implements ActionListener {
 				WindowActionUtils.promptInfoDialog(mainView,
 						"No se ha seleccionado ningún dato, no se puede eliminar ninguna fila",
 						JOptionPane.ERROR_MESSAGE);
+			} catch (Exception exception) {
+				System.err.println(exception.getMessage());
+				System.err.println(exception.getStackTrace());
 			}
 			break;
 		}
@@ -161,15 +167,23 @@ public class Controller implements ActionListener {
 					throw new NullPointerException();
 				}
 				if (!persistence.hasRestaurante(restaurante)) {
-					persistence.addRestaurante(restaurante);
-					WindowActionUtils.promptInfoDialog(mainView, "Restaurante introducido correctamente",
-							JOptionPane.INFORMATION_MESSAGE);
+					if (persistence.addRestaurante(restaurante) == 1) {
+						WindowActionUtils.promptInfoDialog(mainView, "Restaurante introducido correctamente",
+								JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						throw new Exception(
+								"La sentencia de actualización ejecutada ha retornado un número de filas anómalo");
+					}
+
 				} else {
 					WindowActionUtils.promptInfoDialog(mainView,
 							"El nombre introducido ya esta asignado a un restaurante", JOptionPane.ERROR_MESSAGE);
 				}
 			} catch (NullPointerException e) {
 				System.out.println("El restaurante no se pudo generar correctamente");
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+				System.err.println(e.getStackTrace());
 			}
 
 			break;
