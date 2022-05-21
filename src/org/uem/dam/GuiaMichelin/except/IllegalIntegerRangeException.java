@@ -2,6 +2,7 @@ package org.uem.dam.GuiaMichelin.except;
 
 public class IllegalIntegerRangeException extends Exception {
 
+	private static final long serialVersionUID = 1L;
 	final int minVal;
 	final int maxVal;
 
