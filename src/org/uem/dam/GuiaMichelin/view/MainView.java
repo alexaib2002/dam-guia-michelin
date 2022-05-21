@@ -9,7 +9,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import org.uem.dam.GuiaMichelin.control.Controller;
-import org.uem.dam.GuiaMichelin.model.ComponentView;
+import org.uem.dam.GuiaMichelin.inter.ComponentView;
 
 import net.miginfocom.swing.MigLayout;
 

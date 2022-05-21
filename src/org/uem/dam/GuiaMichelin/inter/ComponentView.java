@@ -1,4 +1,4 @@
-package org.uem.dam.GuiaMichelin.model;
+package org.uem.dam.GuiaMichelin.inter;
 
 import org.uem.dam.GuiaMichelin.control.Controller;
 

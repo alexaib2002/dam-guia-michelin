@@ -17,6 +17,8 @@ public class DBPersistence {
 		dbConnection = new DBConnection();
 	}
 
+	// TODO implement DataRetrivalExpression
+
 	public ArrayList<Restaurante> getRestaurantes() {
 		ResultSet rset = null;
 		Connection con = null;

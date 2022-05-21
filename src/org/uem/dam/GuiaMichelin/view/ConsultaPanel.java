@@ -16,7 +16,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import org.uem.dam.GuiaMichelin.control.Controller;
-import org.uem.dam.GuiaMichelin.model.ComponentView;
+import org.uem.dam.GuiaMichelin.inter.ComponentView;
 import org.uem.dam.GuiaMichelin.model.Restaurante;
 import org.uem.dam.GuiaMichelin.persist.DBPersistence;
 import org.uem.dam.GuiaMichelin.utils.Utils;

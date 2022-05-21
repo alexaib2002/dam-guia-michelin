@@ -18,7 +18,7 @@ import javax.swing.border.TitledBorder;
 import org.uem.dam.GuiaMichelin.control.Controller;
 import org.uem.dam.GuiaMichelin.except.EmptyStringFiledException;
 import org.uem.dam.GuiaMichelin.except.IllegalIntegerRangeException;
-import org.uem.dam.GuiaMichelin.model.ComponentView;
+import org.uem.dam.GuiaMichelin.inter.ComponentView;
 import org.uem.dam.GuiaMichelin.model.Restaurante;
 import org.uem.dam.GuiaMichelin.utils.WindowActionUtils;
 
