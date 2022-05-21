@@ -92,15 +92,15 @@ public class Controller implements ActionListener {
 		case "consulta de restaurantes": {
 			mainView.setSubmenuView(mainView.getConsultaPanel());
 		}
-			break;
+		break;
 		case "registro de restaurante": {
 			mainView.setSubmenuView(mainView.getRegistroPanel());
 		}
-			break;
+		break;
 		case "modificación de restaurante": {
 			mainView.setSubmenuView(null);
 		}
-			break;
+		break;
 		}
 	}
 
@@ -140,7 +140,15 @@ public class Controller implements ActionListener {
 		switch (action.toLowerCase()) {
 		case "guardar datos": {
 			Restaurante restaurante = mainView.getRegistroPanel().genRestaurante();
-			persistence.addRestaurante(restaurante);
+			if (!persistence.hasRestaurante(restaurante)) {
+				persistence.addRestaurante(restaurante);
+				WindowActionUtils.promptInfoDialog(mainView, "Restaurante introducido correctamente",
+						JOptionPane.INFORMATION_MESSAGE);
+			} else {
+				WindowActionUtils.promptInfoDialog(mainView, "El nombre introducido ya esta asignado a un restaurante",
+						JOptionPane.ERROR_MESSAGE);
+			}
+
 			break;
 		}
 		case "limpiar datos": {

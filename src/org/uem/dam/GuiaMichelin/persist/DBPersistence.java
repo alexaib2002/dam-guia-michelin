@@ -26,7 +26,7 @@ public class DBPersistence {
 			con = getConnection();
 			stmt = con.createStatement();
 			String query = String.format("SELECT * FROM %s;", "RESTAURANTES" // FIXME contract
-			);
+					);
 			rset = stmt.executeQuery(query);
 
 			while (rset.next()) {
@@ -46,7 +46,7 @@ public class DBPersistence {
 						rset.getString("CIUDAD"), direccion, cocina, telefono, web));
 			}
 		} catch (SQLException e) {
-			System.out.println("Error en codigo SQL");
+			System.out.println("Error en codigo SQL" + e);
 		} catch (NullPointerException e) {
 			System.out.println("bruh");
 		} finally {
@@ -108,14 +108,14 @@ public class DBPersistence {
 			con = getConnection();
 			stmt = con.createStatement();
 			String query = String.format("SELECT DISTINCT REGION FROM RESTAURANTES;" // FIXME hardcode
-			);
+					);
 			rset = stmt.executeQuery(query);
 
 			while (rset.next()) {
 				regions.add(rset.getString("REGION")); // FIXME hardcode
 			}
 		} catch (SQLException e) {
-			System.out.println("Error en codigo SQL");
+			System.out.println("Error en codigo SQL" + e);
 		} finally {
 			try {
 				if (rset != null)
@@ -129,6 +129,34 @@ public class DBPersistence {
 			}
 		}
 		return regions;
+	}
+
+	public boolean hasRestaurante(Restaurante restaurante) {
+		boolean hasRestaurante = true;
+		ResultSet result;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String query = "SELECT ID FROM RESTAURANTES WHERE NOMBRE = ?";
+		try {
+			con = getConnection();
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, restaurante.nombre());
+			result = pstmt.executeQuery();
+			hasRestaurante = result.next();
+		} catch (SQLException e) {
+			System.out.println("Error en codigo SQL" + e);
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (con != null)
+					con.close();
+				System.out.println("Conexion a BBDD cerrada con exito");
+			} catch (SQLException e) {
+				System.out.println("Error durante cierre de conexion a BBDD");
+			}
+		}
+		return hasRestaurante;
 	}
 
 	public ArrayList<String> getAvailableColumns() {

@@ -161,27 +161,19 @@ public class RegistroPanel extends JPanel implements ComponentView {
 
 	public Restaurante genRestaurante() {
 		Restaurante restaurante = null;
-
-		/*
-		 * regionCmbx.setSelectedIndex(0); cocinaCmbx.setSelectedIndex(0);
-		 * distinSpn.setValue(((SpinnerNumberModel) distinSpn.getModel()).getMinimum());
-		 * nomTxt.setText(""); ciudadTxt.setText(""); dirTxt.setText("");
-		 * precMinTxt.setText(""); precMaxTxt.setText(""); telTxt.setText("");
-		 * webTxt.setText("");
-		 */
 		try {
 			validateFields();
 			restaurante = new Restaurante(-1, // SQL query will assign the proper next value to the register
 					(int) distinSpn.getValue(),
 					(!precMinTxt.getText().isEmpty() || !precMinTxt.getText().isBlank())
-							? Integer.parseInt(precMinTxt.getText())
+					? Integer.parseInt(precMinTxt.getText())
 							: 0,
-					(!precMaxTxt.getText().isEmpty() || !precMaxTxt.getText().isBlank())
+							(!precMaxTxt.getText().isEmpty() || !precMaxTxt.getText().isBlank())
 							? Integer.parseInt(precMaxTxt.getText())
-							: 0,
-					nomTxt.getText(), (String) regionCmbx.getModel().getSelectedItem(), ciudadTxt.getText(),
-					dirTxt.getText(), (String) cocinaCmbx.getModel().getSelectedItem(), telTxt.getText(),
-					webTxt.getText());
+									: 0,
+									nomTxt.getText(), (String) regionCmbx.getModel().getSelectedItem(), ciudadTxt.getText(),
+									dirTxt.getText(), (String) cocinaCmbx.getModel().getSelectedItem(), telTxt.getText(),
+									webTxt.getText());
 		} catch (EmptyStringFiledException strExcept) {
 			WindowActionUtils.promptInfoDialog(SwingUtilities.getWindowAncestor(this),
 					String.format("El campo %s no ha sido introducido", strExcept.getMessage().toLowerCase()),
