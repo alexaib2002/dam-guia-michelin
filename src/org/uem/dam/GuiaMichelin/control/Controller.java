@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
+import org.uem.dam.GuiaMichelin.contract.RestauranteContract;
+import org.uem.dam.GuiaMichelin.contract.TableContract;
 import org.uem.dam.GuiaMichelin.model.Restaurante;
 import org.uem.dam.GuiaMichelin.persist.DBPersistence;
 import org.uem.dam.GuiaMichelin.utils.SQLQueryBuilder;
@@ -177,9 +179,8 @@ public class Controller implements ActionListener {
 				}
 				if (!persistence.hasRestaurante(restaurante)) {
 					if (persistence.updateRestaurante(restaurante, (con, pstmt) -> {
-						String query = SQLQueryBuilder.buildInsertQuery("RESTAURANTES",
-								new String[] { "NOMBRE", "REGION", "CIUDAD", "DISTINCION", "DIRECCION", "PRECIO_MIN",
-										"PRECIO_MAX", "COCINA", "TELEFONO", "WEB" });
+						String query = SQLQueryBuilder.buildInsertQuery(TableContract.RESTAURANTES.toString(),
+								RestauranteContract.getAllAttributes());
 						pstmt = con.prepareStatement(query);
 						pstmt.setString(1, restaurante.nombre());
 						pstmt.setString(2, restaurante.region());

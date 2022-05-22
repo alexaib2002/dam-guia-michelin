@@ -4,15 +4,25 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
+import org.uem.dam.GuiaMichelin.contract.RestauranteContract;
+import org.uem.dam.GuiaMichelin.contract.TableContract;
 import org.uem.dam.GuiaMichelin.utils.SQLQueryBuilder;
 
-class InsertQueryTest {
+class InsertQueryTestUnit {
+
+	final String restauranteExpectedInsertQuery = "INSERT INTO RESTAURANTES ('NOMBRE', 'REGION', 'CIUDAD', 'DISTINCION', 'DIRECCION', 'PRECIO_MIN', 'PRECIO_MAX', 'COCINA', 'TELEFONO', 'WEB') VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 	@Test
 	void insertRestauranteCreationTest() {
-		final String expectedVal = "INSERT INTO RESTAURANTES ('NOMBRE', 'REGION', 'CIUDAD', 'DISTINCION', 'DIRECCION', 'PRECIO_MIN', 'PRECIO_MAX', 'COCINA', 'TELEFONO', 'WEB') VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-		assertEquals(expectedVal, SQLQueryBuilder.buildInsertQuery("RESTAURANTES", new String[] { "NOMBRE", "REGION",
-				"CIUDAD", "DISTINCION", "DIRECCION", "PRECIO_MIN", "PRECIO_MAX", "COCINA", "TELEFONO", "WEB" }));
+		assertEquals(restauranteExpectedInsertQuery,
+				SQLQueryBuilder.buildInsertQuery("RESTAURANTES", new String[] { "NOMBRE", "REGION", "CIUDAD",
+						"DISTINCION", "DIRECCION", "PRECIO_MIN", "PRECIO_MAX", "COCINA", "TELEFONO", "WEB" }));
+	}
+
+	@Test
+	void insertRestauranteEnumTest() {
+		assertEquals(restauranteExpectedInsertQuery, SQLQueryBuilder
+				.buildInsertQuery(TableContract.RESTAURANTES.toString(), RestauranteContract.getAllAttributes()));
 	}
 
 	@Test

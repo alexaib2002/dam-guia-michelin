@@ -15,6 +15,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import org.uem.dam.GuiaMichelin.contract.RestauranteContract;
 import org.uem.dam.GuiaMichelin.control.Controller;
 import org.uem.dam.GuiaMichelin.inter.ComponentView;
 import org.uem.dam.GuiaMichelin.model.Restaurante;
@@ -142,7 +143,7 @@ public class ConsultaPanel extends JPanel implements ComponentView {
 	public void updateTable(ArrayList<Restaurante> restaurantes) {
 		DefaultTableModel tableModel = (DefaultTableModel) listTable.getModel();
 		Object[] restauranteProps;
-		int distinIdx = Restaurante.PROPS.DISTINCION.ordinal();
+		int distinIdx = RestauranteContract.DISTINCION.ordinal();
 		for (Restaurante restaurante : restaurantes) {
 			restauranteProps = restaurante.translateToStringArray().toArray();
 			Utils.parseDistinIntToString(restauranteProps, distinIdx);
