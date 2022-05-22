@@ -67,8 +67,6 @@ public class DBPersistence {
 		return restaurantes;
 	}
 
-	// TODO implement UpdateExpression
-
 	public int updateRestaurante(Restaurante restaurante, UpdateExpression expr) {
 		int result = 0;
 		Connection con = null;

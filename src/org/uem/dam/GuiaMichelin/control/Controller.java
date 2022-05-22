@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 
 import org.uem.dam.GuiaMichelin.model.Restaurante;
 import org.uem.dam.GuiaMichelin.persist.DBPersistence;
+import org.uem.dam.GuiaMichelin.utils.SQLQueryBuilder;
 import org.uem.dam.GuiaMichelin.utils.WindowActionUtils;
 import org.uem.dam.GuiaMichelin.view.ConsultaPanel;
 import org.uem.dam.GuiaMichelin.view.MainView;
@@ -176,7 +177,9 @@ public class Controller implements ActionListener {
 				}
 				if (!persistence.hasRestaurante(restaurante)) {
 					if (persistence.updateRestaurante(restaurante, (con, pstmt) -> {
-						String query = "INSERT INTO RESTAURANTES ('NOMBRE', 'REGION', 'CIUDAD', 'DISTINCION', 'DIRECCION', 'PRECIO_MIN', 'PRECIO_MAX', 'COCINA', 'TELEFONO', 'WEB') VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+						String query = SQLQueryBuilder.buildInsertQuery("RESTAURANTES",
+								new String[] { "NOMBRE", "REGION", "CIUDAD", "DISTINCION", "DIRECCION", "PRECIO_MIN",
+										"PRECIO_MAX", "COCINA", "TELEFONO", "WEB" });
 						pstmt = con.prepareStatement(query);
 						pstmt.setString(1, restaurante.nombre());
 						pstmt.setString(2, restaurante.region());
