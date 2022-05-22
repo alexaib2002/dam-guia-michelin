@@ -1,6 +1,6 @@
 package org.uem.dam.GuiaMichelin.utils;
 
-public final class SQLQueryBuilder {
+public abstract class SQLQueryBuilder {
 
 	public static String selectQuery(String[] select, String[] tables, String[] where) {
 		String query = "";
@@ -51,6 +51,19 @@ public final class SQLQueryBuilder {
 		}
 
 		query += ";";
+
+		return query;
+	}
+
+	public static String buildDeleteQuery(String table, String cond) {
+
+		if (table.isEmpty() || table.isBlank() || cond.isBlank() || cond.isEmpty()) {
+			throw new IllegalArgumentException();
+		}
+
+		// initial statements
+		String query = String.format("DELETE FROM %s ", table);
+		query += String.format("WHERE %s = ?;", cond);
 
 		return query;
 	}

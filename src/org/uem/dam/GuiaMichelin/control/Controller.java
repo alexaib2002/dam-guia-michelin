@@ -143,7 +143,8 @@ public class Controller implements ActionListener {
 					Restaurante restaurante = restaurantes.get(i); // lambda NO acepta variables mutables en el interior
 																	// de la implementación, deben ser finales
 					if (persistence.updateRestaurante(restaurante, (con, pstmt) -> {
-						String query = "DELETE FROM RESTAURANTES WHERE ID = ?;";
+						String query = SQLQueryBuilder.buildDeleteQuery(TableContract.RESTAURANTES.toString(),
+								RestauranteContract.ID.toString());
 						pstmt = con.prepareStatement(query);
 						pstmt.setInt(1, restaurante.id());
 						return pstmt;

@@ -1,6 +1,6 @@
 package org.uem.dam.GuiaMichelin.utils;
 
-public final class Utils {
+public abstract class Utils {
 
 	public static void parseDistinIntToString(Object[] restauranteProps, int distinIdx) {
 		int distinVal = Integer.parseInt((String) restauranteProps[distinIdx]);

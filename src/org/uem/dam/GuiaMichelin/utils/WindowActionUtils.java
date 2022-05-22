@@ -4,7 +4,7 @@ import java.awt.Window;
 
 import javax.swing.JOptionPane;
 
-public class WindowActionUtils {
+public abstract class WindowActionUtils {
 	public static boolean promptWindowExit(Window window) {
 		return (JOptionPane.showConfirmDialog(window, "Se va a cerrar el programa, ¿confirmar?", "Confirmar cierre",
 				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION);
