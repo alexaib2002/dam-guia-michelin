@@ -16,7 +16,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import org.uem.dam.GuiaMichelin.control.Controller;
-import org.uem.dam.GuiaMichelin.except.EmptyStringFiledException;
+import org.uem.dam.GuiaMichelin.except.EmptyStringFieldException;
 import org.uem.dam.GuiaMichelin.except.IllegalIntegerRangeException;
 import org.uem.dam.GuiaMichelin.inter.ComponentView;
 import org.uem.dam.GuiaMichelin.model.Restaurante;
@@ -174,7 +174,7 @@ public class RegistroPanel extends JPanel implements ComponentView {
 									nomTxt.getText(), (String) regionCmbx.getModel().getSelectedItem(), ciudadTxt.getText(),
 									dirTxt.getText(), (String) cocinaCmbx.getModel().getSelectedItem(), telTxt.getText(),
 									webTxt.getText());
-		} catch (EmptyStringFiledException strExcept) {
+		} catch (EmptyStringFieldException strExcept) {
 			WindowActionUtils.promptInfoDialog(SwingUtilities.getWindowAncestor(this),
 					String.format("El campo %s no ha sido introducido", strExcept.getMessage().toLowerCase()),
 					JOptionPane.ERROR_MESSAGE);
@@ -204,12 +204,12 @@ public class RegistroPanel extends JPanel implements ComponentView {
 		webTxt.setText("");
 	}
 
-	private void validateFields() throws EmptyStringFiledException, IllegalIntegerRangeException {
+	private void validateFields() throws EmptyStringFieldException, IllegalIntegerRangeException {
 		if (nomTxt.getText().isEmpty() || nomTxt.getText().isBlank()) {
-			throw new EmptyStringFiledException("Nombre");
+			throw new EmptyStringFieldException("Nombre");
 		}
 		if (ciudadTxt.getText().isEmpty() || ciudadTxt.getText().isBlank()) {
-			throw new EmptyStringFiledException("Ciudad");
+			throw new EmptyStringFieldException("Ciudad");
 		}
 
 		if (!precMinTxt.getText().isEmpty() || !precMinTxt.getText().isBlank()) {
