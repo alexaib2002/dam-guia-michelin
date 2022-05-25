@@ -2,8 +2,51 @@ package org.uem.dam.GuiaMichelin.utils;
 
 public abstract class SQLQueryBuilder {
 
-	public static String selectQuery(String[] select, String[] tables, String[] where) {
-		String query = "";
+	public static String buildSelectQuery(String table, String[] cols, String[] where, String orderBy,
+			boolean distinct) {
+		String query = "SELECT ";
+
+		if (distinct) {
+			query += "DISTINCT ";
+		}
+
+		int c = 0; // counter
+		// append columns
+		for (String col : cols) {
+			query += col;
+			if (c != cols.length - 1) {
+				query += ", ";
+			}
+			c++;
+		}
+		c = 0;
+
+		// append table
+		query += String.format(" FROM %s", table);
+		// where statement
+
+		if (where != null) {
+			if (where.length > 0) {
+				for (String whereStmt : where) {
+					if (!whereStmt.isBlank() || !whereStmt.isEmpty()) {
+						if (c == 0) {
+							query += " WHERE ";
+						} else {
+							query += " AND ";
+						}
+						query += whereStmt;
+					}
+					c++;
+				}
+			}
+		}
+
+		if (orderBy != null) {
+			query += String.format(" ORDER BY %s", orderBy);
+		}
+
+		query += ";";
+
 		return query;
 	}
 
