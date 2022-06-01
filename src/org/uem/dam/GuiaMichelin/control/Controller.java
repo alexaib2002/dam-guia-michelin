@@ -17,6 +17,7 @@ import org.uem.dam.GuiaMichelin.utils.SQLQueryBuilder;
 import org.uem.dam.GuiaMichelin.utils.WindowActionUtils;
 import org.uem.dam.GuiaMichelin.view.ConsultaPanel;
 import org.uem.dam.GuiaMichelin.view.MainView;
+import org.uem.dam.GuiaMichelin.view.ModificarPanel;
 
 public class Controller implements ActionListener {
 	private final MainView mainView;
@@ -118,7 +119,7 @@ public class Controller implements ActionListener {
 			// TODO refactor into own method
 			ConsultaPanel consultaPanel = mainView.getConsultaPanel();
 			consultaPanel.clearTable();
-			restaurantes = persistence.getRestaurantes();
+			updateRestaurantes();
 			String regionFilter = (String) consultaPanel.getRegionCmbx().getSelectedItem();
 			// TODO create test case to ensure distinFilter always matches selected distin
 			int distinFilter = consultaPanel.getDistinCmbx().getSelectedIndex();
@@ -142,6 +143,7 @@ public class Controller implements ActionListener {
 			int[] rowsSelected = mainView.getConsultaPanel().getSelectedIndexes();
 			try {
 				for (int i = rowsSelected[rowsSelected.length - 1]; i >= rowsSelected[0]; i--) {
+					updateRestaurantes();
 					consultaPanel.removeTableIndex(i);
 					// https://stackoverflow.com/questions/34865383/variable-used-in-lambda-expression-should-be-final-or-effectively-final
 					Restaurante restaurante = restaurantes.get(i); // lambda NO acepta variables mutables en el interior
@@ -229,20 +231,78 @@ public class Controller implements ActionListener {
 	}
 
 	private void switchModificarAction(String action) {
-		// TODO implement functionality
+		ModificarPanel modPanel = mainView.getModificarPanel();
 		switch (action.toLowerCase()) {
 		case "buscar restaurante": {
+			String searchRestauranteStr = modPanel.getSearchRestaurante();
+			updateRestaurantes();
+			Restaurante searchRestaurante = null;
+			for (Restaurante restaurante : restaurantes) {
+				if (restaurante.nombre().toLowerCase().contains(searchRestauranteStr.toLowerCase())) {
+					searchRestaurante = restaurante;
+					break;
+				}
+			}
+			if (searchRestaurante != null) {
+				modPanel.setEditable(true);
+				modPanel.setValues(searchRestaurante);
+			} else {
+				WindowActionUtils.promptInfoDialog(mainView,
+						"No se ha encontrado ningún restaurante que coincida con el nombre introducido",
+						JOptionPane.WARNING_MESSAGE);
+			}
 			break;
 		}
-		case "actualizar datos": {
-			break;
-		}
+		case "actualizar datos":
+			if (modPanel.getEditable()) {
+				try {
+					Restaurante restaurante = modPanel.genRestaurante();
+					if (restaurante == null) {
+						throw new NullPointerException();
+					}
+
+					if (persistence.updateRestaurante(restaurante, (con, pstmt) -> {
+						String query = SQLQueryBuilder.buildUpdateQuery(TableContract.RESTAURANTES.toString(),
+								RestauranteContract.getAllAttributes());
+						pstmt = con.prepareStatement(query);
+						pstmt.setString(1, restaurante.nombre());
+						pstmt.setString(2, restaurante.region());
+						pstmt.setString(3, restaurante.ciudad());
+						pstmt.setInt(4, restaurante.distincion());
+						pstmt.setString(5, restaurante.direccion());
+						pstmt.setFloat(6, restaurante.precioMin());
+						pstmt.setFloat(7, restaurante.precioMax());
+						pstmt.setString(8, restaurante.cocina());
+						pstmt.setString(9, restaurante.telefono());
+						pstmt.setString(10, restaurante.web());
+						pstmt.setInt(11, modPanel.getFocusedId());
+						return pstmt;
+					}) == 1) {
+						WindowActionUtils.promptInfoDialog(mainView, "Restaurante actualizar correctamente",
+								JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						throw new Exception(
+								"La sentencia de actualización ejecutada ha retornado un número de filas anómalo");
+					}
+				} catch (NullPointerException e) {
+					System.out.println("El restaurante no se pudo actualizar correctamente");
+				} catch (Exception e) {
+					System.err.println(e.getMessage());
+					System.err.println(e.getStackTrace());
+				}
+			}
 		case "cancelar": {
+			modPanel.setEditable(false);
+			modPanel.clearFields();
 			break;
 		}
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + action);
 		}
+	}
+
+	private void updateRestaurantes() {
+		restaurantes = persistence.getRestaurantes();
 	}
 
 }

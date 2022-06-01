@@ -111,4 +111,36 @@ public abstract class SQLQueryBuilder {
 		return query;
 	}
 
+	public static String buildUpdateQuery(String table, String[] cols) {
+
+		if (table.isEmpty() || table.isBlank() || cols.length <= 0) {
+			throw new IllegalArgumentException();
+		}
+
+		// initial statements
+		String query = String.format("UPDATE %s ", table);
+
+		// append columns
+		int c = 0; // counter
+		for (String col : cols) {
+			if (c == 0) {
+				query += "SET ";
+			}
+
+			query += String.format("%s = ?", col);
+
+			if (c == cols.length - 1) {
+				query += " ";
+			} else {
+				query += ", ";
+			}
+
+			c++;
+		}
+
+		query += String.format("WHERE ID = ?;");
+
+		return query;
+	}
+
 }

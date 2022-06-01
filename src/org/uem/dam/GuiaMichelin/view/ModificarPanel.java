@@ -5,9 +5,12 @@ import javax.swing.border.TitledBorder;
 
 import org.uem.dam.GuiaMichelin.control.Controller;
 import org.uem.dam.GuiaMichelin.inter.ComponentView;
+import org.uem.dam.GuiaMichelin.model.Restaurante;
 
 public class ModificarPanel extends RestaurantePanel implements ComponentView {
 	private JButton btnSearchRest;
+	private int focusedId;
+	private boolean editable;
 
 	public ModificarPanel() {
 		setEditable(false);
@@ -37,7 +40,12 @@ public class ModificarPanel extends RestaurantePanel implements ComponentView {
 		btnSearchRest.addActionListener(controller);
 	}
 
+	public int getFocusedId() {
+		return focusedId;
+	}
+
 	public void setEditable(boolean value) {
+		editable = value;
 		cocinaCmbx.setEnabled(value);
 		regionCmbx.setEnabled(value);
 		ciudadTxt.setEnabled(value);
@@ -49,4 +57,26 @@ public class ModificarPanel extends RestaurantePanel implements ComponentView {
 		webTxt.setEnabled(value);
 	}
 
+	public boolean getEditable() {
+		return editable;
+	}
+
+	public void setValues(Restaurante restaurante) {
+		// maintain reference to id owning the original properties
+		focusedId = restaurante.id();
+		nomTxt.setText(restaurante.nombre());
+		cocinaCmbx.getModel().setSelectedItem(restaurante.cocina());
+		regionCmbx.getModel().setSelectedItem(restaurante.region());
+		ciudadTxt.setText(restaurante.ciudad());
+		dirTxt.setText(restaurante.direccion());
+		distinSpn.setValue(restaurante.distincion());
+		precMinTxt.setText(Float.toString(restaurante.precioMin()));
+		precMaxTxt.setText(Float.toString(restaurante.precioMax()));
+		telTxt.setText(restaurante.telefono());
+		webTxt.setText(restaurante.web());
+	}
+
+	public String getSearchRestaurante() {
+		return nomTxt.getText();
+	}
 }

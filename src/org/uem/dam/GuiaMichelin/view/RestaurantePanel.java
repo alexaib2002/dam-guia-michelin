@@ -17,8 +17,9 @@ import javax.swing.border.TitledBorder;
 
 import org.uem.dam.GuiaMichelin.control.Controller;
 import org.uem.dam.GuiaMichelin.except.EmptyStringFieldException;
-import org.uem.dam.GuiaMichelin.except.IllegalIntegerRangeException;
+import org.uem.dam.GuiaMichelin.except.IllegalFloatRangeException;
 import org.uem.dam.GuiaMichelin.inter.ComponentView;
+import org.uem.dam.GuiaMichelin.model.Restaurante;
 import org.uem.dam.GuiaMichelin.utils.WindowActionUtils;
 
 import net.miginfocom.swing.MigLayout;
@@ -168,7 +169,39 @@ public class RestaurantePanel extends JPanel implements ComponentView {
 		webTxt.setText("");
 	}
 
-	protected void validateFields() throws EmptyStringFieldException, IllegalIntegerRangeException {
+	public Restaurante genRestaurante() {
+		Restaurante restaurante = null;
+		try {
+			validateFields();
+			restaurante = new Restaurante(-1, // SQL query will assign the proper next value to the register
+					(int) distinSpn.getValue(),
+					(!precMinTxt.getText().isEmpty() || !precMinTxt.getText().isBlank())
+							? Float.parseFloat(precMinTxt.getText())
+							: 0,
+					(!precMaxTxt.getText().isEmpty() || !precMaxTxt.getText().isBlank())
+							? Float.parseFloat(precMaxTxt.getText())
+							: 0,
+					nomTxt.getText(), (String) regionCmbx.getModel().getSelectedItem(), ciudadTxt.getText(),
+					dirTxt.getText(), (String) cocinaCmbx.getModel().getSelectedItem(), telTxt.getText(),
+					webTxt.getText());
+		} catch (EmptyStringFieldException strExcept) {
+			WindowActionUtils.promptInfoDialog(SwingUtilities.getWindowAncestor(this),
+					String.format("El campo %s no ha sido introducido", strExcept.getMessage().toLowerCase()),
+					JOptionPane.ERROR_MESSAGE);
+		} catch (NumberFormatException numExcept) {
+			WindowActionUtils.promptInfoDialog(SwingUtilities.getWindowAncestor(this),
+					"El precio minimo y máximo deben ser valores numéricos", JOptionPane.ERROR_MESSAGE);
+		} catch (IllegalFloatRangeException invalidExcept) {
+			WindowActionUtils.promptInfoDialog(SwingUtilities.getWindowAncestor(this),
+					String.format("El valor máximo %s no puede ser menor que el valor mínimo %s",
+							invalidExcept.getMaxVal(), invalidExcept.getMinVal()),
+					JOptionPane.ERROR_MESSAGE);
+		}
+
+		return restaurante;
+	}
+
+	private void validateFields() throws EmptyStringFieldException, IllegalFloatRangeException {
 		if (nomTxt.getText().isEmpty() || nomTxt.getText().isBlank()) {
 			throw new EmptyStringFieldException("Nombre");
 		}
@@ -177,11 +210,11 @@ public class RestaurantePanel extends JPanel implements ComponentView {
 		}
 
 		if (!precMinTxt.getText().isEmpty() || !precMinTxt.getText().isBlank()) {
-			int precMin = Integer.parseInt(precMinTxt.getText());
+			float precMin = Float.parseFloat(precMinTxt.getText());
 			if (!precMaxTxt.getText().isEmpty() || !precMaxTxt.getText().isBlank()) {
-				int precMax = Integer.parseInt(precMaxTxt.getText());
+				float precMax = Float.parseFloat(precMaxTxt.getText());
 				if (precMax < precMin) {
-					throw new IllegalIntegerRangeException(precMin, precMax);
+					throw new IllegalFloatRangeException(precMin, precMax);
 				}
 			}
 		} else if (!precMaxTxt.getText().isEmpty() || !precMaxTxt.getText().isBlank()) {
