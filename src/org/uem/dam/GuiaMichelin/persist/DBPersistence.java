@@ -44,20 +44,24 @@ public class DBPersistence {
 						? Float.parseFloat(rset.getString(RestauranteContract.PRECIO_MAX.toString()))
 						: 0f;
 				String direccion = rset.getString(RestauranteContract.DIRECCION.toString()) != null
-						? RestauranteContract.DIRECCION.toString()
+						? rset.getString(RestauranteContract.DIRECCION.toString())
 						: "";
-				String cocina = RestauranteContract.COCINA.toString() != null ? RestauranteContract.COCINA.toString()
+				String cocina = rset.getString(RestauranteContract.COCINA.toString()) != null
+						? rset.getString(RestauranteContract.COCINA.toString())
 						: "";
-				String telefono = RestauranteContract.TELEFONO.toString() != null
-						? RestauranteContract.TELEFONO.toString()
+				String telefono = rset.getString(RestauranteContract.TELEFONO.toString()) != null
+						? rset.getString(RestauranteContract.TELEFONO.toString())
 						: "";
-				String web = RestauranteContract.WEB.toString() != null ? RestauranteContract.WEB.toString() : "";
+				String web = rset.getString(RestauranteContract.WEB.toString()) != null
+						? rset.getString(RestauranteContract.WEB.toString())
+						: "";
 
 				restaurantes.add(new Restaurante( // FIXME
 						rset.getInt(RestauranteContract.ID.toString()),
 						rset.getInt(RestauranteContract.DISTINCION.toString()), precioMin, precioMax,
-						RestauranteContract.NOMBRE.toString(), RestauranteContract.REGION.toString(),
-						RestauranteContract.CIUDAD.toString(), direccion, cocina, telefono, web));
+						rset.getString(RestauranteContract.NOMBRE.toString()),
+						rset.getString(RestauranteContract.REGION.toString()),
+						rset.getString(RestauranteContract.CIUDAD.toString()), direccion, cocina, telefono, web));
 			}
 		} catch (SQLException e) {
 			System.out.println("Error en codigo SQL" + e);
@@ -115,7 +119,7 @@ public class DBPersistence {
 			rset = stmt.executeQuery(query);
 
 			while (rset.next()) {
-				regions.add(RestauranteContract.REGION.toString());
+				regions.add(rset.getString(RestauranteContract.REGION.toString()));
 			}
 		} catch (SQLException e) {
 			System.out.println("Error en codigo SQL" + e);
