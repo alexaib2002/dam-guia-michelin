@@ -73,8 +73,12 @@ public class Controller implements ActionListener {
 			switchRegistroAction(action);
 			break;
 		}
+		case "modificarPanel": {
+			switchModificarAction(action);
+			break;
+		}
 		default:
-			throw new IllegalArgumentException("Unnasinged ID action: " + action);
+			throw new IllegalArgumentException("Unnasinged caller ID: " + callerID);
 		}
 	}
 
@@ -102,7 +106,7 @@ public class Controller implements ActionListener {
 		}
 			break;
 		case "modificación de restaurante": {
-			mainView.setSubmenuView(null);
+			mainView.setSubmenuView(mainView.getModificarPanel());
 		}
 			break;
 		}
@@ -224,6 +228,21 @@ public class Controller implements ActionListener {
 		}
 	}
 
-	/* Special action parsers */
+	private void switchModificarAction(String action) {
+		// TODO implement functionality
+		switch (action.toLowerCase()) {
+		case "buscar restaurante": {
+			break;
+		}
+		case "actualizar datos": {
+			break;
+		}
+		case "cancelar": {
+			break;
+		}
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + action);
+		}
+	}
 
 }

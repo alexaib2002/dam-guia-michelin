@@ -22,6 +22,7 @@ public class MainView extends JFrame implements ComponentView {
 
 	private ConsultaPanel consultaPanel;
 	private RegistroPanel registroPanel;
+	private ModificarPanel modificarPanel;
 	private JMenuItem mntmConsulta;
 	private JMenuItem mntmRegistro;
 	private JMenuItem mntmModificacion;
@@ -58,6 +59,9 @@ public class MainView extends JFrame implements ComponentView {
 
 		registroPanel = new RegistroPanel();
 		this.add(registroPanel);
+
+		modificarPanel = new ModificarPanel();
+		this.add(modificarPanel);
 	}
 
 	@Override
@@ -80,6 +84,7 @@ public class MainView extends JFrame implements ComponentView {
 		// initialize controller dependent elements
 		consultaPanel.updateListeners(controller);
 		registroPanel.updateListeners(controller);
+		modificarPanel.updateListeners(controller);
 		this.addWindowListener(controller.getWinAdapter());
 	}
 
@@ -89,6 +94,10 @@ public class MainView extends JFrame implements ComponentView {
 
 	public RegistroPanel getRegistroPanel() {
 		return registroPanel;
+	}
+
+	public ModificarPanel getModificarPanel() {
+		return modificarPanel;
 	}
 
 	public void setSubmenuView(JPanel submenu) {
