@@ -1,4 +1,4 @@
-package org.uem.dam.GuiaMichelin.except;
+package org.uem.dam.guia_michelin.except;
 
 public class IllegalFloatRangeException extends Exception {
 

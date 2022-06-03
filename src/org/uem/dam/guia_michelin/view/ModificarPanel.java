@@ -1,11 +1,11 @@
-package org.uem.dam.GuiaMichelin.view;
+package org.uem.dam.guia_michelin.view;
 
 import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
 
-import org.uem.dam.GuiaMichelin.control.Controller;
-import org.uem.dam.GuiaMichelin.inter.ComponentView;
-import org.uem.dam.GuiaMichelin.model.Restaurante;
+import org.uem.dam.guia_michelin.control.Controller;
+import org.uem.dam.guia_michelin.inter.ComponentView;
+import org.uem.dam.guia_michelin.model.Restaurante;
 
 public class ModificarPanel extends RestaurantePanel implements ComponentView {
 	private JButton btnSearchRest;

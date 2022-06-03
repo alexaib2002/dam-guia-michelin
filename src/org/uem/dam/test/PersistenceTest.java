@@ -2,7 +2,7 @@ package org.uem.dam.test;
 
 import org.junit.BeforeClass;
 import org.junit.jupiter.api.Test;
-import org.uem.dam.GuiaMichelin.persist.DBPersistence;
+import org.uem.dam.guia_michelin.persist.DBPersistence;
 
 class PersistenceTest {
 

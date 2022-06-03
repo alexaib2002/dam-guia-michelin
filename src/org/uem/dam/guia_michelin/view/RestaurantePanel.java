@@ -1,4 +1,4 @@
-package org.uem.dam.GuiaMichelin.view;
+package org.uem.dam.guia_michelin.view;
 
 import java.awt.Color;
 
@@ -15,12 +15,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
-import org.uem.dam.GuiaMichelin.control.Controller;
-import org.uem.dam.GuiaMichelin.except.EmptyStringFieldException;
-import org.uem.dam.GuiaMichelin.except.IllegalFloatRangeException;
-import org.uem.dam.GuiaMichelin.inter.ComponentView;
-import org.uem.dam.GuiaMichelin.model.Restaurante;
-import org.uem.dam.GuiaMichelin.utils.WindowActionUtils;
+import org.uem.dam.guia_michelin.control.Controller;
+import org.uem.dam.guia_michelin.except.EmptyStringFieldException;
+import org.uem.dam.guia_michelin.except.IllegalFloatRangeException;
+import org.uem.dam.guia_michelin.inter.ComponentView;
+import org.uem.dam.guia_michelin.model.Restaurante;
+import org.uem.dam.guia_michelin.utils.WindowActionUtils;
 
 import net.miginfocom.swing.MigLayout;
 

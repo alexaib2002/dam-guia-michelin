@@ -1,8 +1,8 @@
-package org.uem.dam.GuiaMichelin.view;
+package org.uem.dam.guia_michelin.view;
 
 import javax.swing.border.TitledBorder;
 
-import org.uem.dam.GuiaMichelin.inter.ComponentView;
+import org.uem.dam.guia_michelin.inter.ComponentView;
 
 public class RegistroPanel extends RestaurantePanel implements ComponentView {
 

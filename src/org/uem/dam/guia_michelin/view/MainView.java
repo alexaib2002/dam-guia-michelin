@@ -1,4 +1,4 @@
-package org.uem.dam.GuiaMichelin.view;
+package org.uem.dam.guia_michelin.view;
 
 import java.awt.Dimension;
 
@@ -8,8 +8,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import org.uem.dam.GuiaMichelin.control.Controller;
-import org.uem.dam.GuiaMichelin.inter.ComponentView;
+import org.uem.dam.guia_michelin.control.Controller;
+import org.uem.dam.guia_michelin.inter.ComponentView;
 
 import net.miginfocom.swing.MigLayout;
 

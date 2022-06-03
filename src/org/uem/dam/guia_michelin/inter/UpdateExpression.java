@@ -1,4 +1,4 @@
-package org.uem.dam.GuiaMichelin.inter;
+package org.uem.dam.guia_michelin.inter;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

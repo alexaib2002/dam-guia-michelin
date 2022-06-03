@@ -1,4 +1,4 @@
-package org.uem.dam.GuiaMichelin.utils;
+package org.uem.dam.guia_michelin.utils;
 
 public abstract class Utils {
 

@@ -1,4 +1,4 @@
-package org.uem.dam.GuiaMichelin.persist;
+package org.uem.dam.guia_michelin.persist;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

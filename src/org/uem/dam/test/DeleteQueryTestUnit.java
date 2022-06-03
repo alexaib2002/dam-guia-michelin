@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
-import org.uem.dam.GuiaMichelin.contract.RestauranteContract;
-import org.uem.dam.GuiaMichelin.contract.TableContract;
-import org.uem.dam.GuiaMichelin.utils.SQLQueryBuilder;
+import org.uem.dam.guia_michelin.contract.RestauranteContract;
+import org.uem.dam.guia_michelin.contract.TableContract;
+import org.uem.dam.guia_michelin.utils.SQLQueryBuilder;
 
 class DeleteQueryTestUnit extends SQLQueryBuilder {
 

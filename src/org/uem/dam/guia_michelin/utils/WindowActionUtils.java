@@ -1,4 +1,4 @@
-package org.uem.dam.GuiaMichelin.utils;
+package org.uem.dam.guia_michelin.utils;
 
 import java.awt.Window;
 

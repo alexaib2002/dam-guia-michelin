@@ -1,4 +1,4 @@
-package org.uem.dam.GuiaMichelin.control;
+package org.uem.dam.guia_michelin.control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,15 +9,15 @@ import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
-import org.uem.dam.GuiaMichelin.contract.RestauranteContract;
-import org.uem.dam.GuiaMichelin.contract.TableContract;
-import org.uem.dam.GuiaMichelin.model.Restaurante;
-import org.uem.dam.GuiaMichelin.persist.DBPersistence;
-import org.uem.dam.GuiaMichelin.utils.SQLQueryBuilder;
-import org.uem.dam.GuiaMichelin.utils.WindowActionUtils;
-import org.uem.dam.GuiaMichelin.view.ConsultaPanel;
-import org.uem.dam.GuiaMichelin.view.MainView;
-import org.uem.dam.GuiaMichelin.view.ModificarPanel;
+import org.uem.dam.guia_michelin.contract.RestauranteContract;
+import org.uem.dam.guia_michelin.contract.TableContract;
+import org.uem.dam.guia_michelin.model.Restaurante;
+import org.uem.dam.guia_michelin.persist.DBPersistence;
+import org.uem.dam.guia_michelin.utils.SQLQueryBuilder;
+import org.uem.dam.guia_michelin.utils.WindowActionUtils;
+import org.uem.dam.guia_michelin.view.ConsultaPanel;
+import org.uem.dam.guia_michelin.view.MainView;
+import org.uem.dam.guia_michelin.view.ModificarPanel;
 
 public class Controller implements ActionListener {
 	private final MainView mainView;

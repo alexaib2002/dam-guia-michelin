@@ -1,4 +1,4 @@
-package org.uem.dam.GuiaMichelin.persist;
+package org.uem.dam.guia_michelin.persist;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import org.uem.dam.GuiaMichelin.contract.RestauranteContract;
-import org.uem.dam.GuiaMichelin.contract.TableContract;
-import org.uem.dam.GuiaMichelin.inter.UpdateExpression;
-import org.uem.dam.GuiaMichelin.model.Restaurante;
-import org.uem.dam.GuiaMichelin.utils.SQLQueryBuilder;
+import org.uem.dam.guia_michelin.contract.RestauranteContract;
+import org.uem.dam.guia_michelin.contract.TableContract;
+import org.uem.dam.guia_michelin.inter.UpdateExpression;
+import org.uem.dam.guia_michelin.model.Restaurante;
+import org.uem.dam.guia_michelin.utils.SQLQueryBuilder;
 
 public class DBPersistence {
 

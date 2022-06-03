@@ -1,7 +1,7 @@
-package org.uem.dam.GuiaMichelin.main;
+package org.uem.dam.guia_michelin.main;
 
-import org.uem.dam.GuiaMichelin.control.Controller;
-import org.uem.dam.GuiaMichelin.view.MainView;
+import org.uem.dam.guia_michelin.control.Controller;
+import org.uem.dam.guia_michelin.view.MainView;
 
 public class GuiaMichelinMain {
 

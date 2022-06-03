@@ -1,4 +1,4 @@
-package org.uem.dam.GuiaMichelin.inter;
+package org.uem.dam.guia_michelin.inter;
 
 @FunctionalInterface
 public interface DataRetrievalExpression {

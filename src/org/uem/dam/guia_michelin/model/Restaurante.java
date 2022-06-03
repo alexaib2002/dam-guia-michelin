@@ -1,4 +1,4 @@
-package org.uem.dam.GuiaMichelin.model;
+package org.uem.dam.guia_michelin.model;
 
 import java.util.ArrayList;
 

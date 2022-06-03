@@ -1,4 +1,4 @@
-package org.uem.dam.GuiaMichelin.contract;
+package org.uem.dam.guia_michelin.contract;
 
 public enum RestauranteContract {
 	ID, NOMBRE, REGION, CIUDAD, DISTINCION, DIRECCION, PRECIO_MIN, PRECIO_MAX, COCINA, TELEFONO, WEB;

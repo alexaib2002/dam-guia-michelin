@@ -1,6 +1,6 @@
-package org.uem.dam.GuiaMichelin.inter;
+package org.uem.dam.guia_michelin.inter;
 
-import org.uem.dam.GuiaMichelin.control.Controller;
+import org.uem.dam.guia_michelin.control.Controller;
 
 public interface ComponentView {
 
